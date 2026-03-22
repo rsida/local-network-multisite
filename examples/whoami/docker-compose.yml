@@ -1,0 +1,46 @@
+---
+# Example downstream project
+#
+# This is a minimal example showing how an independent project connects
+# to the docker-base Traefik infrastructure.
+#
+# Prerequisites:
+#   1. docker-base is running: cd /path/to/docker-base && make up
+#   2. Add to hosts file:  127.0.0.1  whoami.local
+#      - Windows (for Chrome): C:\Windows\System32\drivers\etc\hosts  (as Administrator)
+#      - WSL2 (for curl/tests): sudo tee -a /etc/hosts
+#
+# Start this example:
+#   docker compose up -d
+#
+# Then visit: https://whoami.local
+
+networks:
+  # Reference the shared network created by docker-base.
+  # The name MUST match TRAEFIK_NETWORK in docker-base/.env (default: traefik-net).
+  traefik-net:
+    name: traefik-net
+    external: true
+
+services:
+  whoami:
+    image: traefik/whoami:latest
+    container_name: whoami
+    restart: unless-stopped
+    networks:
+      - traefik-net
+    # NOTE: No `ports:` section — Traefik handles all ingress.
+    labels:
+      # Opt this service in to Traefik routing
+      - "traefik.enable=true"
+
+      # Route HTTPS requests for whoami.local to this container
+      - "traefik.http.routers.whoami.rule=Host(`whoami.local`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      - "traefik.http.routers.whoami.tls=true"
+
+      # Explicit backend port (traefik/whoami listens on 80)
+      - "traefik.http.services.whoami.loadbalancer.server.port=80"
+
+      # Optional: apply the shared security-headers middleware
+      - "traefik.http.routers.whoami.middlewares=secure-headers@file"

@@ -1,0 +1,21 @@
+# Local environment overrides — never commit secrets
+.env
+
+# TLS certificates — generated locally via mkcert, never committed
+certs/*.crt
+certs/*.key
+certs/*.pem
+
+# Keep the certs directory itself tracked
+!certs/.gitkeep
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
