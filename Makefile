@@ -1,4 +1,4 @@
-# docker-base Makefile
+# local-network-multisite Makefile
 #
 # Usage:
 #   make up      — Create the shared network (if absent) and start Traefik

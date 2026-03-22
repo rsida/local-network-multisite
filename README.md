@@ -1,4 +1,4 @@
-# Dokcer Base (docker-base) for local development
+# local-network-multisite
 
 A shared Docker infrastructure providing a single [Traefik v3](https://traefik.io/traefik/)
 reverse proxy for local development. All your independent projects route through this
@@ -6,7 +6,7 @@ instance — no project ever binds host ports directly.
 
 ```
 Browser (Chrome on Windows)
-  └── 127.0.0.1:443  ──►  Traefik (docker-base)
+  └── 127.0.0.1:443  ──►  Traefik (local-network-multisite)
                                ├──► myapp.local   → project-a container
                                ├──► api.local      → project-b container
                                └──► traefik.local  → Traefik dashboard
@@ -51,8 +51,8 @@ mkcert --version
 ### 1. Clone this repository
 
 ```bash
-git clone <repo-url> ~/docker-base
-cd ~/docker-base
+git clone https://github.com/rsida/local-network-multisite ~/local-network-multisite
+cd ~/local-network-multisite
 ```
 
 ### 2. Copy the environment file
@@ -139,7 +139,7 @@ In your project's `docker-compose.yml`, declare `traefik-net` as an **external**
 ```yaml
 networks:
   traefik-net:
-    name: traefik-net   # must match TRAEFIK_NETWORK in docker-base/.env
+    name: traefik-net   # must match TRAEFIK_NETWORK in local-network-multisite/.env
     external: true
 ```
 
@@ -267,7 +267,7 @@ docker compose up -d
 
 ### Checklist for every new project
 
-- [ ] `docker-base` is running: `make ps`
+- [ ] `local-network-multisite` is running: `make ps`
 - [ ] `traefik-net` exists: `docker network ls | grep traefik-net`
 - [ ] `traefik-net` declared as external in `docker-compose.yml`
 - [ ] Service has `traefik.enable=true` label
@@ -325,7 +325,7 @@ command, then re-run `make certs` and restart Traefik (`make down && make up`).
 ## Directory structure
 
 ```
-docker-base/
+local-network-multisite/
 ├── .env.example              # Environment variable template
 ├── .gitignore
 ├── Makefile
@@ -430,7 +430,7 @@ Common culprits: Apache, nginx, another Traefik instance.
 
 ### A downstream project is not being picked up by Traefik
 
-1. Confirm `docker-base` is running: `make ps`
+1. Confirm `local-network-multisite` is running: `make ps`
 2. Confirm the downstream container is on `traefik-net`:
    ```bash
    docker inspect <container-name> | grep -A5 Networks

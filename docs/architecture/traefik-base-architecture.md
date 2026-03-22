@@ -3,7 +3,7 @@
 ## 1. Repository Structure
 
 ```
-docker-base/
+local-network-multisite/
 ├── .env                          # Local overrides (gitignored)
 ├── .env.example                  # Documented environment variables template
 ├── .gitignore
@@ -56,7 +56,7 @@ This is handled automatically by `make up` / the Makefile before `docker compose
 
 **Why external?** Declaring the network external means its lifecycle is independent
 of any single `docker compose` project. Any project can reference it without
-owning it. If `docker-base` is torn down with `docker compose down`, the network
+owning it. If `local-network-multisite` is torn down with `docker compose down`, the network
 persists so downstream projects are not disrupted.
 
 ### Network Name Configuration
@@ -247,7 +247,7 @@ A downstream project needs to:
 # downstream-project/docker-compose.yml
 networks:
   traefik-net:
-    name: traefik-net   # Must match TRAEFIK_NETWORK in docker-base
+    name: traefik-net   # Must match TRAEFIK_NETWORK in local-network-multisite
     external: true
 
 services:
@@ -290,7 +290,7 @@ Use a compound `Host()` rule — no extra labels are needed:
 
 ### Checklist for adding a new project
 
-- [ ] `docker-base` is running (`make up` in this repo)
+- [ ] `local-network-multisite` is running (`make up` in this repo)
 - [ ] `traefik-net` network exists (`docker network ls | grep traefik-net`)
 - [ ] Downstream `docker-compose.yml` references `traefik-net` as external
 - [ ] Service has `traefik.enable=true` label

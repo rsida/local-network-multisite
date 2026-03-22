@@ -2,10 +2,10 @@
 # Example downstream project
 #
 # This is a minimal example showing how an independent project connects
-# to the docker-base Traefik infrastructure.
+# to the local-network-multisite Traefik infrastructure.
 #
 # Prerequisites:
-#   1. docker-base is running: cd /path/to/docker-base && make up
+#   1. local-network-multisite is running: cd /path/to/local-network-multisite && make up
 #   2. Add to hosts file:  127.0.0.1  whoami.local
 #      - Windows (for Chrome): C:\Windows\System32\drivers\etc\hosts  (as Administrator)
 #      - WSL2 (for curl/tests): sudo tee -a /etc/hosts
@@ -16,8 +16,8 @@
 # Then visit: https://whoami.local
 
 networks:
-  # Reference the shared network created by docker-base.
-  # The name MUST match TRAEFIK_NETWORK in docker-base/.env (default: traefik-net).
+  # Reference the shared network created by local-network-multisite.
+  # The name MUST match TRAEFIK_NETWORK in local-network-multisite/.env (default: traefik-net).
   traefik-net:
     name: traefik-net
     external: true
