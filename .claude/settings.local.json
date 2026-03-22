@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod:*)",
+      "Bash(docker ps:*)",
+      "Bash(docker network:*)",
+      "Bash(netstat -tlnp)",
+      "Bash(docker version:*)",
+      "Bash(openssl x509:*)",
+      "Bash(docker compose:*)",
+      "Bash(python3 -m json.tool)",
+      "Bash(# Copy the CA cert to Windows Desktop so the user can easily install it\ncp /home/romain/.local/share/mkcert/rootCA.pem \"/mnt/c/Users/romai/Desktop/mkcert-rootCA.crt\"\necho \"Copied CA cert to Windows Desktop\"\n# Now install it into the Windows Trusted Root CA store via PowerShell\npowershell.exe -Command \"Import-Certificate -FilePath 'C:\\\\Users\\\\romai\\\\Desktop\\\\mkcert-rootCA.crt' -CertStoreLocation Cert:\\\\LocalMachine\\\\Root\" 2>&1)",
+      "Bash(cat /home/romain/project/docker-base/traefik/dynamic/*.yml)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote:*)",
+      "Bash(git push:*)",
+      "Bash(bash ~/tools/add-ssh-keys)",
+      "Bash(ssh -T git@github.com)"
+    ]
+  }
+}

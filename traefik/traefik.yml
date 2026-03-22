@@ -42,7 +42,10 @@ providers:
     # on multiple networks
     network: traefik-net
 
-  # File provider — hot-reloads dynamic config from /etc/traefik/dynamic/
+  # File provider — loads dynamic config from /etc/traefik/dynamic/
+  # watch: false because inotify is unreliable on WSL2 bind mounts and can cause
+  # Traefik to lose its dynamic config (middlewares, TLS) at runtime.
+  # Restart Traefik to pick up any changes: docker compose restart traefik
   file:
     directory: /etc/traefik/dynamic
-    watch: true
+    watch: false
